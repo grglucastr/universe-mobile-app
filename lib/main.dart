@@ -13,6 +13,19 @@ class UniverseMobileApp extends StatelessWidget {
     List<Planet> planets = List.empty(growable: true);
 
     planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
+    planets.add(Planet(0, "planet x", 2131.22));
 
     return MaterialApp(
       theme: ThemeData(
@@ -21,21 +34,23 @@ class UniverseMobileApp extends StatelessWidget {
           ),
           primaryColor: Colors.deepPurple,
           colorScheme:
-          ColorScheme.fromSwatch().copyWith(secondary: Colors.amber)),
+              ColorScheme.fromSwatch().copyWith(secondary: Colors.amber)),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Universe'),
         ),
-        body: Container(
-          child: ListView.builder(
-            itemCount: planets.length,
-            itemBuilder: (context, index) {
-              Planet planet = planets[index];
-              return Container(
-                child: Text('Heres a planet ${planet.name}'),
-              );
-            },
+        body: ListView.separated(
+          itemCount: planets.length,
+          separatorBuilder: (context, index) => const Divider(
+            color: Colors.black,
           ),
+          itemBuilder: (context, index) {
+            Planet planet = planets[index];
+            return ListTile(
+              title: Text(planet.name),
+              subtitle: Text(planet.mass.toString()),
+            );
+          },
         ),
       ),
     );
