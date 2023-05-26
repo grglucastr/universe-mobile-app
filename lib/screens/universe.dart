@@ -74,10 +74,10 @@ class Universe extends StatelessWidget {
       return const NotFoundItem(
           customText: 'No planets found in your universe.');
     }
-    return _renderListOfPlanets(planets);
+    return _renderPlanetsListView(planets);
   }
 
-  ListView _renderListOfPlanets(List<Planet> planets) {
+  ListView _renderPlanetsListView(List<Planet> planets) {
     return ListView.separated(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
@@ -87,11 +87,15 @@ class Universe extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         Planet planet = planets[index];
-        return ListTile(
-          title: Text(planet.name),
-          subtitle: Text(planet.mass.toString()),
-        );
+        return _renderPlanetsListViewItem(planet);
       },
+    );
+  }
+
+  ListTile _renderPlanetsListViewItem(Planet planet) {
+    return ListTile(
+      title: Text(planet.name),
+      subtitle: Text(planet.mass.toString()),
     );
   }
 }

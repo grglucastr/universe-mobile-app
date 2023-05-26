@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http/http.dart';
 import 'package:http_interceptor/models/request_data.dart';
@@ -22,7 +23,8 @@ final Client client = InterceptedClient.build(interceptors: [
   LoggingInterceptor(),
 ]);
 
-const String baseUrl = 'http://192.168.1.5:8080/api/v1/planets';
+String baseApi = dotenv.env['API_BASE_URL']!;
+String baseUrl = '$baseApi/planets';
 
 Future<List<Planet>> findAll() async {
   final Response response =

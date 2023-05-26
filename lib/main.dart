@@ -1,7 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:universe_mobile_app/screens/universe.dart';
 
-void main() {
+Future<void> main() async {
+  if(kReleaseMode){
+    await dotenv.load(fileName: ".env.production");
+  }else{
+    await dotenv.load(fileName: ".env.development");
+  }
+
   runApp(const UniverseMobileApp());
 }
 
