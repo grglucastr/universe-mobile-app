@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:universe_mobile_app/components/not_found_item.dart';
+import 'package:universe_mobile_app/components/request_error.dart';
 import 'package:universe_mobile_app/http/webclient.dart';
 import 'package:universe_mobile_app/models/planet.dart';
 
@@ -51,8 +52,10 @@ class Universe extends StatelessWidget {
                           break;
                         case ConnectionState.done:
                           if (snapshot.hasError) {
-                            return const Text(
-                                'Something wrong happened during request.');
+                            return const Align(
+                              alignment: Alignment.center,
+                              child: RequestError(),
+                            );
                           }
                           final List<Planet> planets = snapshot.data!;
                           return _renderWidgetOfPlanets(planets);
@@ -71,8 +74,12 @@ class Universe extends StatelessWidget {
 
   Widget _renderWidgetOfPlanets(final List<Planet> planets) {
     if (planets.isEmpty) {
-      return const NotFoundItem(
-          customText: 'No planets found in your universe.');
+      return const Align(
+        alignment: Alignment.center,
+        child: NotFoundItem(
+          customText: 'No planets found in your universe.',
+        ),
+      );
     }
     return _renderPlanetsListView(planets);
   }

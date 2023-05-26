@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NotFoundItem extends StatelessWidget {
-  final String customText;
-
-  const NotFoundItem({Key? key, required this.customText}) : super(key: key);
+class RequestError extends StatelessWidget {
+  const RequestError({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +9,15 @@ class NotFoundItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.warning,
+        children: const [
+           Icon(
+            Icons.error,
             size: 40.0,
-            color: Colors.indigo,
+            color: Colors.redAccent,
           ),
           Text(
-            customText,
-            style: const TextStyle(
+            'Something wrong happened during request.',
+            style: TextStyle(
               fontSize: 16.0,
             ),
           ),
