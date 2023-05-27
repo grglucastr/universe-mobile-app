@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:universe_mobile_app/screens/planets/form.dart';
+import 'package:universe_mobile_app/screens/universe.dart';
 
 Future<void> main() async {
   if(kReleaseMode){
@@ -28,7 +28,7 @@ class UniverseMobileApp extends StatelessWidget {
           secondary: Colors.amber,
         ),
       ),
-      home: const PlanetForm(),
+      home: const Universe(),
     );
   }
 }

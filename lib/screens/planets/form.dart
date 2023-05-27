@@ -40,7 +40,7 @@ class _PlanetFormState extends State<PlanetForm> {
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
                 onSubmitted: (value){
-                  debugPrint('Fast submission');
+                  Navigator.of(context).pop();
                 },
               ),
             ),
@@ -51,6 +51,7 @@ class _PlanetFormState extends State<PlanetForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     debugPrint('Regular submission');
+                    Navigator.of(context).pop();
                   },
                   child: const Text('Save'),
                 ),

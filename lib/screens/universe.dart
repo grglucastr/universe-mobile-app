@@ -3,6 +3,7 @@ import 'package:universe_mobile_app/components/not_found_item.dart';
 import 'package:universe_mobile_app/components/request_error.dart';
 import 'package:universe_mobile_app/http/webclient.dart';
 import 'package:universe_mobile_app/models/planet.dart';
+import 'package:universe_mobile_app/screens/planets/form.dart';
 
 class Universe extends StatelessWidget {
   const Universe({Key? key}) : super(key: key);
@@ -13,6 +14,13 @@ class Universe extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Universe'),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const PlanetForm()));
+        },
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -20,7 +28,7 @@ class Universe extends StatelessWidget {
             const TextField(
               decoration: InputDecoration(
                 labelText:
-                    'Search for planets, constellations, stars, satellites, etc.',
+                'Search for planets, constellations, stars, satellites, etc.',
                 hintText: 'Kleper X983',
                 hintStyle: TextStyle(
                   fontSize: 13.0,
@@ -89,7 +97,8 @@ class Universe extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: planets.length,
-      separatorBuilder: (context, index) => const Divider(
+      separatorBuilder: (context, index) =>
+      const Divider(
         color: Colors.black,
       ),
       itemBuilder: (context, index) {
