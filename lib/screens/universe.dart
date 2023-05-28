@@ -5,9 +5,14 @@ import 'package:universe_mobile_app/http/webclient.dart';
 import 'package:universe_mobile_app/models/planet.dart';
 import 'package:universe_mobile_app/screens/planets/form.dart';
 
-class Universe extends StatelessWidget {
+class Universe extends StatefulWidget {
   const Universe({Key? key}) : super(key: key);
 
+  @override
+  State<Universe> createState() => _UniverseState();
+}
+
+class _UniverseState extends State<Universe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
