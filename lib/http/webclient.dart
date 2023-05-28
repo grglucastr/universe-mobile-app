@@ -85,9 +85,9 @@ Future<Planet> findById(int id) async {
 
   final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
   return Planet(
-    int.parse(jsonResponse['id']),
+    jsonResponse['id'],
     jsonResponse['name'],
-    double.parse(jsonResponse['mass']),
+    jsonResponse['mass'],
   );
 }
 
