@@ -22,64 +22,71 @@ class _UniverseState extends State<Universe> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const PlanetForm()));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => const PlanetForm()))
+              .then(
+            (value) {
+              setState(() {});
+            },
+          );
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            const TextField(
-              decoration: InputDecoration(
-                labelText:
-                'Search for planets, constellations, stars, satellites, etc.',
-                hintText: 'Kleper X983',
-                hintStyle: TextStyle(
-                  fontSize: 13.0,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const TextField(
+                decoration: InputDecoration(
+                  labelText:
+                      'Search for planets, constellations, stars, satellites, etc.',
+                  hintText: 'Kleper X983',
+                  hintStyle: TextStyle(
+                    fontSize: 13.0,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Column(
-                children: [
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Universe items',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Column(
+                  children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Universe items',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  FutureBuilder<List<Planet>>(
-                    future: findAll(),
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                          break;
-                        case ConnectionState.waiting:
-                          break;
-                        case ConnectionState.active:
-                          break;
-                        case ConnectionState.done:
-                          if (snapshot.hasError) {
-                            return const Align(
-                              alignment: Alignment.center,
-                              child: RequestError(),
-                            );
-                          }
-                          final List<Planet> planets = snapshot.data!;
-                          return _renderWidgetOfPlanets(planets);
-                      }
-                      return const Text('Unknow error');
-                    },
-                  ),
-                ],
+                    FutureBuilder<List<Planet>>(
+                      future: findAll(),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.none:
+                            break;
+                          case ConnectionState.waiting:
+                            break;
+                          case ConnectionState.active:
+                            break;
+                          case ConnectionState.done:
+                            if (snapshot.hasError) {
+                              return const Align(
+                                alignment: Alignment.center,
+                                child: RequestError(),
+                              );
+                            }
+                            final List<Planet> planets = snapshot.data!;
+                            return _renderWidgetOfPlanets(planets);
+                        }
+                        return const Text('Unknow error');
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -102,8 +109,7 @@ class _UniverseState extends State<Universe> {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: planets.length,
-      separatorBuilder: (context, index) =>
-      const Divider(
+      separatorBuilder: (context, index) => const Divider(
         color: Colors.black,
       ),
       itemBuilder: (context, index) {
