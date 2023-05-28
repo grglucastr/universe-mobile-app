@@ -71,3 +71,31 @@ Future<Planet> post(Planet planet) async {
     jsonResponse['mass'],
   );
 }
+
+Future<Planet> findById(int id) async {
+  final String endpoint = '$baseUrl/$id';
+  final Map<String, String> headers = {
+    'Content-Type': 'application/json',
+  };
+
+  final Response response = await client.get(
+    Uri.parse(endpoint),
+    headers: headers,
+  );
+
+  final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+  return Planet(
+    int.parse(jsonResponse['id']),
+    jsonResponse['name'],
+    double.parse(jsonResponse['mass']),
+  );
+}
+
+Future<bool> delete(int id) async {
+  final String endpoint = '$baseUrl/$id';
+  final Response response = await client.delete(
+    Uri.parse(endpoint),
+    encoding: utf8,
+  );
+  return response.statusCode == 204;
+}
