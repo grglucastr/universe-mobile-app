@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:universe_mobile_app/http/webclient.dart';
+import 'package:universe_mobile_app/models/planet.dart';
 
 class PlanetForm extends StatefulWidget {
   const PlanetForm({Key? key}) : super(key: key);
 
   @override
   State<PlanetForm> createState() => _PlanetFormState();
-
 }
 
 class _PlanetFormState extends State<PlanetForm> {
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _massController = TextEditingController();
 
@@ -25,23 +25,17 @@ class _PlanetFormState extends State<PlanetForm> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'Name'
-              ),
+              decoration: const InputDecoration(labelText: 'Name'),
               textInputAction: TextInputAction.next,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 24.0),
               child: TextField(
                 controller: _massController,
-                decoration: const InputDecoration(
-                  labelText: 'Mass'
-                ),
+                decoration: const InputDecoration(labelText: 'Mass'),
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
-                onSubmitted: (value){
-                  Navigator.of(context).pop();
-                },
+                onSubmitted: (value) => _postPlanet(context)
               ),
             ),
             Padding(
@@ -49,10 +43,7 @@ class _PlanetFormState extends State<PlanetForm> {
               child: SizedBox(
                 width: double.maxFinite,
                 child: ElevatedButton(
-                  onPressed: () {
-                    debugPrint('Regular submission');
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => _postPlanet(context),
                   child: const Text('Save'),
                 ),
               ),
@@ -61,5 +52,13 @@ class _PlanetFormState extends State<PlanetForm> {
         ),
       ),
     );
+  }
+
+  void _postPlanet(BuildContext context) {
+    post(Planet(
+      0,
+      _nameController.text,
+      double.parse(_massController.text),
+    )).then((value) => Navigator.of(context).pop());
   }
 }
