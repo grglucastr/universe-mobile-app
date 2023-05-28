@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:universe_mobile_app/components/loading.dart';
 import 'package:universe_mobile_app/components/request_error.dart';
 import 'package:universe_mobile_app/http/webclient.dart';
 import 'package:universe_mobile_app/models/planet.dart';
@@ -18,14 +19,14 @@ class PlanetDetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(planetName)),
       body: FutureBuilder(
-        initialData: Planet(0, '', 0.0),
-        future: findById(planetId),
+        future: Future.delayed(const Duration(seconds: 1))
+            .then((value) => findById(planetId)),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
-              return const CircularProgressIndicator();
+              return const Loading(customText: 'Loading planet details...',);
             case ConnectionState.active:
               break;
             case ConnectionState.done:
