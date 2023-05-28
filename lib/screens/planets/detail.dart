@@ -18,7 +18,7 @@ class PlanetDetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(planetName)),
       body: FutureBuilder(
-        initialData: Planet(0,'',0.0),
+        initialData: Planet(0, '', 0.0),
         future: findById(planetId),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
@@ -29,37 +29,32 @@ class PlanetDetail extends StatelessWidget {
             case ConnectionState.active:
               break;
             case ConnectionState.done:
-
-              if(snapshot.hasError){
+              if (snapshot.hasError) {
                 return const RequestError();
               }
-
-              if(snapshot.hasData){
+              if (snapshot.hasData) {
                 Planet? planet = snapshot.data;
-                return Column(
-                  children: [
-                    const Text(
-                      'ID: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                          child: Text(
+                            'Details',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
                       ),
-                    ),
-                    Text(planetId.toString()),
-                    const Text(
-                      'Name: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(planetName),
-                    const Text(
-                      'Mass: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(planet!.mass.toString()),
-                  ],
+                      _renderPlanetDetail(planet!),
+                    ],
+                  ),
                 );
               }
           }
@@ -67,5 +62,39 @@ class PlanetDetail extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget _renderPlanetDetail(Planet planet) {
+    List<ListTile> tiles = List.empty(growable: true);
+    _fillTilesList(tiles, planet);
+
+    return Expanded(
+      child: ListView.separated(
+        separatorBuilder: (context, index) {
+          return const Divider(
+            color: Colors.black12,
+          );
+        },
+        itemCount: tiles.length,
+        itemBuilder: (BuildContext context, int index) {
+          return tiles[index];
+        },
+      ),
+    );
+  }
+
+  void _fillTilesList(List<ListTile> tiles, Planet planet) {
+    tiles.add(ListTile(
+      title: const Text('ID'),
+      subtitle: Text(planet.id.toString()),
+    ));
+    tiles.add(ListTile(
+      title: const Text('Name'),
+      subtitle: Text(planet.name),
+    ));
+    tiles.add(ListTile(
+      title: const Text('Mass'),
+      subtitle: Text(planet.mass.toString()),
+    ));
   }
 }
