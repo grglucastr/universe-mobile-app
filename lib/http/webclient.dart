@@ -25,6 +25,7 @@ final Client client = InterceptedClient.build(interceptors: [
 
 String baseApi = dotenv.env['API_BASE_URL']!;
 String baseUrl = '$baseApi/planets';
+Encoding? utf8 = Encoding.getByName('UTF-8');
 
 Future<List<Planet>> findAll() async {
   final Response response =
@@ -42,4 +43,31 @@ Future<List<Planet>> findAll() async {
     planets.add(planet);
   }
   return planets;
+}
+
+Future<Planet> post(Planet planet) async {
+  final Map<String, dynamic> planetMap = {
+    'name': planet.name,
+    'mass': planet.mass
+  };
+
+  final Map<String, String> headers = {
+    'Content-Type': 'application/json',
+  };
+
+  final String jsonRequest = jsonEncode(planetMap);
+  final Response response = await client.post(
+    Uri.parse(baseUrl),
+    headers: headers,
+    body: jsonRequest,
+    encoding: utf8,
+  );
+
+  final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
+  return Planet(
+    jsonResponse['id'],
+    jsonResponse['name'],
+    jsonResponse['mass'],
+  );
 }
