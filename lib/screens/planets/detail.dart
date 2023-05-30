@@ -3,6 +3,7 @@ import 'package:universe_mobile_app/components/loading.dart';
 import 'package:universe_mobile_app/components/request_error.dart';
 import 'package:universe_mobile_app/http/webclient.dart';
 import 'package:universe_mobile_app/models/planet.dart';
+import 'package:universe_mobile_app/screens/planets/edit.dart';
 import 'package:universe_mobile_app/screens/universe.dart';
 
 class PlanetDetail extends StatefulWidget {
@@ -31,7 +32,17 @@ class _PlanetDetailState extends State<PlanetDetail> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PlanetEdit(
+                    widget.planetId,
+                    widget.planetName,
+                  ),
+                ),
+              );
+            },
             icon: const Icon(Icons.edit),
           ),
           IconButton(
@@ -120,10 +131,8 @@ class _PlanetDetailState extends State<PlanetDetail> {
 
   void _redirectToUniverse(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-            builder: (context) => const Universe()),
-            (route) => false
-    );
+        MaterialPageRoute(builder: (context) => const Universe()),
+        (route) => false);
   }
 
   Widget _renderPlanetDetail(Planet planet) {
