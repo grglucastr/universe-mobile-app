@@ -3,12 +3,15 @@ import 'package:universe_mobile_app/components/loading.dart';
 import 'package:universe_mobile_app/components/request_error.dart';
 import 'package:universe_mobile_app/http/webclient.dart';
 import 'package:universe_mobile_app/models/planet.dart';
+import 'package:universe_mobile_app/screens/universe.dart';
 
 class PlanetDetail extends StatelessWidget {
   final int planetId;
   final String planetName;
 
-  const PlanetDetail({
+  bool deleted = false;
+
+  PlanetDetail({
     Key? key,
     required this.planetId,
     required this.planetName,
@@ -16,6 +19,15 @@ class PlanetDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (deleted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Universe(),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -99,7 +111,7 @@ class PlanetDetail extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            Navigator.pop(context);
+            delete(planetId).then((deleted) => Navigator.pop(context));
           },
           style: const ButtonStyle(
               foregroundColor: MaterialStatePropertyAll<Color>(Colors.red)),
