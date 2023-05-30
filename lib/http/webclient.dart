@@ -99,3 +99,29 @@ Future<bool> delete(int id) async {
   );
   return response.statusCode == 204;
 }
+
+Future<Planet> put(int id, Planet planet) async {
+  final String endpoint = '$baseUrl/$id';
+  final Map<String, String> headers = {'Content-Type': 'application/json'};
+
+  final Map<String, dynamic> requestMap = {
+    'id': planet.id,
+    'name': planet.name,
+    'mass': planet.mass
+  };
+
+  final String requestJson = jsonEncode(requestMap);
+  final Response response = await client.put(
+    Uri.parse(endpoint),
+    headers: headers,
+    body: requestJson,
+    encoding: utf8,
+  );
+
+  final Map<String, dynamic> responseMap = jsonDecode(response.body);
+  return Planet(
+    responseMap['id'],
+    responseMap['name'],
+    responseMap['mass'],
+  );
+}
