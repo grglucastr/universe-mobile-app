@@ -3,6 +3,7 @@ import 'package:universe_mobile_app/components/not_found_item.dart';
 import 'package:universe_mobile_app/components/request_error.dart';
 import 'package:universe_mobile_app/http/webclient.dart';
 import 'package:universe_mobile_app/models/planet.dart';
+import 'package:universe_mobile_app/screens/planets/detail.dart';
 import 'package:universe_mobile_app/screens/planets/form.dart';
 
 class Universe extends StatefulWidget {
@@ -114,15 +115,27 @@ class _UniverseState extends State<Universe> {
       ),
       itemBuilder: (context, index) {
         Planet planet = planets[index];
-        return _renderPlanetsListViewItem(planet);
+        return _renderPlanetsListViewItem(context, planet);
       },
     );
   }
 
-  ListTile _renderPlanetsListViewItem(Planet planet) {
+  ListTile _renderPlanetsListViewItem(BuildContext context, Planet planet) {
     return ListTile(
+      onTap: () => _redirectToDetailPage(context, planet),
       title: Text(planet.name),
       subtitle: Text(planet.mass.toString()),
+    );
+  }
+
+  void _redirectToDetailPage(BuildContext context, Planet planet) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => PlanetDetail(
+          planetId: planet.id,
+          planetName: planet.name,
+        ),
+      ),
     );
   }
 }
