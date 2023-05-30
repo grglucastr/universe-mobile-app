@@ -5,33 +5,29 @@ import 'package:universe_mobile_app/http/webclient.dart';
 import 'package:universe_mobile_app/models/planet.dart';
 import 'package:universe_mobile_app/screens/universe.dart';
 
-class PlanetDetail extends StatelessWidget {
+class PlanetDetail extends StatefulWidget {
   final int planetId;
   final String planetName;
 
-  bool deleted = false;
-
-  PlanetDetail({
+  const PlanetDetail({
     Key? key,
     required this.planetId,
     required this.planetName,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    if (deleted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Universe(),
-        ),
-      );
-    }
+  State<PlanetDetail> createState() => _PlanetDetailState();
+}
 
+class _PlanetDetailState extends State<PlanetDetail> {
+  bool deleted = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          planetName,
+          widget.planetName,
         ),
         actions: [
           IconButton(
@@ -51,7 +47,7 @@ class PlanetDetail extends StatelessWidget {
       ),
       body: FutureBuilder(
         future: Future.delayed(const Duration(milliseconds: 500))
-            .then((value) => findById(planetId)),
+            .then((value) => findById(widget.planetId)),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -101,7 +97,7 @@ class PlanetDetail extends StatelessWidget {
   AlertDialog buildAlertDialogConfirm(BuildContext context) {
     return AlertDialog(
       title: const Text('Are you sure?'),
-      content: Text('Are sure to proceed delete planet $planetName?'),
+      content: Text('Are sure to proceed delete planet ${widget.planetName}?'),
       actions: [
         TextButton(
           onPressed: () {
@@ -111,13 +107,22 @@ class PlanetDetail extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            delete(planetId).then((deleted) => Navigator.pop(context));
+            delete(widget.planetId)
+                .then((result) => setState(() => _redirectToUniverse(context)));
           },
           style: const ButtonStyle(
               foregroundColor: MaterialStatePropertyAll<Color>(Colors.red)),
           child: const Text('Confirm'),
         ),
       ],
+    );
+  }
+
+  void _redirectToUniverse(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+            builder: (context) => const Universe()),
+            (route) => false
     );
   }
 
