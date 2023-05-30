@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:universe_mobile_app/components/loading.dart';
 import 'package:universe_mobile_app/components/not_found_item.dart';
 import 'package:universe_mobile_app/components/request_error.dart';
 import 'package:universe_mobile_app/http/webclient.dart';
@@ -67,7 +68,7 @@ class _UniverseState extends State<Universe> {
                           case ConnectionState.none:
                             break;
                           case ConnectionState.waiting:
-                            break;
+                            return const Loading(customText: 'Loading your Universe...',);
                           case ConnectionState.active:
                             break;
                           case ConnectionState.done:
@@ -136,6 +137,8 @@ class _UniverseState extends State<Universe> {
           planetName: planet.name,
         ),
       ),
-    );
+    ).then((value){
+      setState(() { });
+    });
   }
 }
