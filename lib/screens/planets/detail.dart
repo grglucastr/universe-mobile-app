@@ -17,16 +17,37 @@ class PlanetDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(planetName)),
+      appBar: AppBar(
+        title: Text(
+          planetName,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.edit),
+          ),
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => buildAlertDialogConfirm(context),
+              );
+            },
+            icon: const Icon(Icons.delete),
+          ),
+        ],
+      ),
       body: FutureBuilder(
-        future: Future.delayed(const Duration(seconds: 1))
+        future: Future.delayed(const Duration(milliseconds: 500))
             .then((value) => findById(planetId)),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
-              return const Loading(customText: 'Loading planet details...',);
+              return const Loading(
+                customText: 'Loading planet details...',
+              );
             case ConnectionState.active:
               break;
             case ConnectionState.done:
@@ -62,6 +83,29 @@ class PlanetDetail extends StatelessWidget {
           return const RequestError();
         },
       ),
+    );
+  }
+
+  AlertDialog buildAlertDialogConfirm(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Are you sure?'),
+      content: Text('Are sure to proceed delete planet $planetName?'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          style: const ButtonStyle(
+              foregroundColor: MaterialStatePropertyAll<Color>(Colors.red)),
+          child: const Text('Confirm'),
+        ),
+      ],
     );
   }
 
