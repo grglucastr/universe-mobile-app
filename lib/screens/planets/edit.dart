@@ -95,8 +95,8 @@ class _PlanetEditState extends State<PlanetEdit> {
   }
 
   void _putPlanet(BuildContext context) {
-    post(Planet(
-      0,
+    put(widget.planetId, Planet(
+      widget.planetId,
       _nameController.text,
       double.parse(_massController.text),
     )).then((value) => Navigator.of(context).pop());

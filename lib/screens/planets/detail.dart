@@ -22,13 +22,15 @@ class PlanetDetail extends StatefulWidget {
 
 class _PlanetDetailState extends State<PlanetDetail> {
   bool deleted = false;
+  String planetTitle = '';
 
   @override
   Widget build(BuildContext context) {
+    planetTitle = widget.planetName;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.planetName,
+          planetTitle,
         ),
         actions: [
           IconButton(
@@ -41,7 +43,9 @@ class _PlanetDetailState extends State<PlanetDetail> {
                     widget.planetName,
                   ),
                 ),
-              );
+              ).then((value){
+                setState(() {});
+              });
             },
             icon: const Icon(Icons.edit),
           ),
@@ -75,6 +79,7 @@ class _PlanetDetailState extends State<PlanetDetail> {
               }
               if (snapshot.hasData) {
                 Planet? planet = snapshot.data;
+                planetTitle = planet!.name;
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
