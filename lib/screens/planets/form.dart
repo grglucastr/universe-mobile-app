@@ -31,12 +31,11 @@ class _PlanetFormState extends State<PlanetForm> {
             Padding(
               padding: const EdgeInsets.only(top: 24.0),
               child: TextField(
-                controller: _massController,
-                decoration: const InputDecoration(labelText: 'Mass'),
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.done,
-                onSubmitted: (value) => _postPlanet(context)
-              ),
+                  controller: _massController,
+                  decoration: const InputDecoration(labelText: 'Mass'),
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (value) => _postPlanet(context)),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 48.0),
