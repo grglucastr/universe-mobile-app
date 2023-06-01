@@ -15,6 +15,9 @@ class Universe extends StatefulWidget {
 }
 
 class _UniverseState extends State<Universe> {
+
+  final TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +41,13 @@ class _UniverseState extends State<Universe> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: searchController,
+                textInputAction: TextInputAction.done,
+                onEditingComplete: (){
+                  setState(() {});
+                },
+                decoration: const InputDecoration(
                   labelText:
                       'Search for planets, constellations, stars, satellites, etc.',
                   hintText: 'Kleper X983',
@@ -62,7 +70,7 @@ class _UniverseState extends State<Universe> {
                       ),
                     ),
                     FutureBuilder<List<Planet>>(
-                      future: findAll(),
+                      future: findAll(searchController.text),
                       builder: (context, snapshot) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.none:

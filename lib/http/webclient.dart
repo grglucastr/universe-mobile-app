@@ -27,7 +27,7 @@ String baseApi = dotenv.env['API_BASE_URL']!;
 String baseUrl = '$baseApi/planets';
 Encoding? utf8 = Encoding.getByName('UTF-8');
 
-Future<List<Planet>> findAll() async {
+Future<List<Planet>> findAll([String? searchNameParam]) async {
   final Response response =
       await client.get(Uri.parse(baseUrl)).timeout(const Duration(seconds: 5));
 
@@ -42,7 +42,19 @@ Future<List<Planet>> findAll() async {
     );
     planets.add(planet);
   }
+
+  if(searchNameParam != null && searchNameParam.isNotEmpty){
+    return findByName(planets, searchNameParam);
+  }
+
   return planets;
+}
+
+List<Planet> findByName(List<Planet> planets, String searchNameParam) {
+  return planets
+      .where((planet) => planet.name
+      .contains(searchNameParam))
+      .toList();
 }
 
 Future<Planet> post(Planet planet) async {
